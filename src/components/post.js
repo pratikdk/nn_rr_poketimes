@@ -16,6 +16,12 @@ class Post extends React.Component {
     //             })
     //         })
     // }
+
+    handleClick = (e) => {
+        this.props.deletePost(this.props.post.id);
+        this.props.history.push("/");
+    }
+
     render() {
         console.log(this.props);
         const { post } = this.props;
@@ -23,6 +29,9 @@ class Post extends React.Component {
             <div>
                 <h4 className="center">{ post.title }</h4>
                 <p>{ post.body }</p>
+                <div className="center">
+                    <button className="btn grey center" onClick={this.handleClick}>DELETE POST</button>
+                </div>
             </div>
         ) : (
             <div className="center">Loading post...</div>
@@ -43,5 +52,11 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(Post);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deletePost: (id) => { dispatch({type: "DELETE_POST", id: id})}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);
   
